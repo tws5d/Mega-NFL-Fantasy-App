@@ -100,7 +100,7 @@ with col2:
 
     if position == "DEF" and player:
         opponent_row = schedule_df[
-            (schedule_df["team"] == player) &
+            (schedule_df["team"].str.lower() == player.lower()) &
             (schedule_df["week"] == current_week)
         ]
         opponent = opponent_row["opponent"].values[0] if not opponent_row.empty else "Unknown"
