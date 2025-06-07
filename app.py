@@ -17,7 +17,11 @@ qb_list = ["Patrick Mahomes", "Josh Allen", "Jalen Hurts"]
 rb_list = ["Christian McCaffrey", "Austin Ekeler", "Derrick Henry"]
 wr_list = ["Justin Jefferson", "Tyreek Hill", "Ja'Marr Chase"]
 te_list = ["Travis Kelce", "George Kittle", "Mark Andrews"]
-def_list = ["49ers", "Eagles", "Cowboys"]
+def_list = ["49ers", "Bears", "Bengals", "Bills", "Broncos", "Browns", "Buccaneers",
+    "Cardinals", "Chargers", "Chiefs", "Colts", "Commanders", "Cowboys",
+    "Dolphins", "Eagles", "Falcons", "Giants", "Jaguars", "Jets", "Lions",
+    "Packers", "Panthers", "Patriots", "Raiders", "Rams", "Ravens", "Saints",
+    "Seahawks", "Steelers", "Texans", "Titans", "Vikings"]
 
 logo_map = {
     "49ers": "sanfrancisco_49ers_logo.png",
