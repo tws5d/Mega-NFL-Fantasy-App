@@ -7,9 +7,6 @@ import datetime
 # Load schedule CSV
 schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
 
-st.write("Unique team names in schedule:")
-st.write(schedule_df["team"].unique())
-
 # Detect current week
 def get_current_week(start_date=datetime.date(2025, 9, 4)):
     today = datetime.date.today()
@@ -122,9 +119,7 @@ with col2:
         st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent} (??th in Total Offense)</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
-
-        st.write("DEBUG: player =", player)
-        st.write("DEBUG: current_week =", current_week)
+       
         st.dataframe(schedule_df[schedule_df["team"] == player])
 
 # Show logo in col1 if DEF is selected and player is chosen
