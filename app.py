@@ -174,11 +174,17 @@ with col2:
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
-        logo_file = logo_map.get(player)
-        if logo_file:
-            st.markdown('<div style="height: 100px;">', unsafe_allow_html=True)
-            st.image(f"Logos/{logo_file}", width=100)
-            st.markdown('</div>', unsafe_allow_html=True)
+    logo_file = logo_map.get(player)
+    if logo_file:
+        st.image(
+            f"Logos/{logo_file}",
+            width=100,
+            output_format="PNG"
+        )
+        st.markdown(
+            "<style>img { max-height: 90px !important; object-fit: contain; }</style>",
+            unsafe_allow_html=True
+        )
 
     # NEW ROW FOR STATS — BELOW EVERYTHING
     col1_stats, col2_stats = st.columns([1, 5])
