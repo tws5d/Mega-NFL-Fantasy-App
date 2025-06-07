@@ -4,6 +4,13 @@ from PIL import Image
 import pandas as pd
 import datetime
 
+def ordinal(n):
+    if 10 <= n % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
 # Load schedule CSV
 schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
 offense_df = pd.read_csv("offense_ranks_2024.csv")
@@ -158,9 +165,10 @@ with col2:
         else:
             pass_indicator = "✅"
 
-        st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {total_rank}th Overall</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {pass_rank}th</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
+
         
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
