@@ -27,6 +27,16 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
         return None
 
     data = response.json()
+    with open("odds_log.txt", "w") as f:
+    for game in data:
+        f.write(f"{game['home_team']} vs {game['away_team']}\n")
+        for b in game["bookmakers"]:
+            if b["key"] == "draftkings":
+                for m in b["markets"]:
+                    f.write(f"  Market: {m['key']}\n")
+                    for o in m["outcomes"]:
+                        f.write(f"    {o['name']}: {o['point']}\n")
+
 
     for game in data:
         if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
