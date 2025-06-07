@@ -196,7 +196,8 @@ with col2:
         is_home_team = False
         if not opponent_row.empty:
             is_home_team = opponent_row["home"].values[0] == "home"
-
+            
+        st.write("Matchup check:", team_full, "vs", opponent_full, "| Home team?", is_home_team)
         implied_points = get_implied_points(team_full, opponent_full, is_home_team)
 
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
