@@ -134,9 +134,7 @@ with col2:
             (schedule_df["week"] == current_week)
         ]
         opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
-        st.write("DEBUG - Opponent:", opponent_abbr)
-
-
+        
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
         
         total_rank = offense_row["total_offense_rank"].values[0] if not offense_row.empty else "??"
