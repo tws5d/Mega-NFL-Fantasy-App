@@ -51,10 +51,12 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
             # Try exact match or fallback to partial match
             st.write("Spread Dict:", spread_dict)
             st.write("Looking for opponent:", opponent_full_name)
-            opponent_spread = next(
-                (v for k, v in spread_dict.items() if opponent_full_name.lower() in k.lower()),
+            # Normalize both sides to lowercase for comparison
+            spread_lookup_name = next(
+                (k for k in spread_dict if opponent_full_name.lower() == k.lower()),
                 None
             )
+            opponent_spread = spread_dict.get(spread_lookup_name)
 
             if opponent_spread is None or total_points is None:
                 return None
