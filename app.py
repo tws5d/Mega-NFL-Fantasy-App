@@ -49,8 +49,8 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
 
             # Determine if the opponent is the underdog
             # Try exact match or fallback to partial match
-            print("Spread Dict:", spread_dict)
-            print("Looking for opponent:", opponent_full_name)
+            st.write("Spread Dict:", spread_dict)
+            st.write("Looking for opponent:", opponent_full_name)
             opponent_spread = next(
                 (v for k, v in spread_dict.items() if opponent_full_name.lower() in k.lower()),
                 None
