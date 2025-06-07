@@ -28,9 +28,7 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
 
     data = response.json()
 
-    # Try to find the correct game
     for game in data:
-        st.write("API Game:", game["home_team"], "vs", game["away_team"])
         if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
             dk = next((b for b in game["bookmakers"] if b["key"] == "draftkings"), None)
             if not dk:
@@ -44,21 +42,14 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
             total_points = next((o["point"] for o in totals["outcomes"] if o["name"] == "Over"), None)
             spread_dict = {o["name"]: o["point"] for o in spreads["outcomes"]}
 
-            # Determine if the opponent is the underdog
-            # Try exact match or fallback to partial match
-            st.write("Spread Dict:", spread_dict)
-            st.write("Looking for opponent:", opponent_full_name)
-            # Normalize both sides to lowercase for comparison
-            spread_lookup_name = next(
-                (k for k in spread_dict if opponent_full_name.lower() == k.lower()),
+            opponent_spread = next(
+                (v for k, v in spread_dict.items() if k.lower() != team_full_name.lower()),
                 None
             )
-            opponent_spread = spread_dict.get(spread_lookup_name)
 
             if opponent_spread is None or total_points is None:
                 return None
 
-            # Implied Points = Total Points - Opponent Spread
             return round(total_points - opponent_spread, 1)
 
     return None
@@ -205,9 +196,7 @@ with col2:
             
         
         implied_points = get_implied_points(team_full, opponent_full, is_home_team)
-        st.write("Implied points result:", implied_points)
-
-
+        
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
         
         total_rank = offense_row["total_offense_rank"].values[0] if not offense_row.empty else "??"
