@@ -4,6 +4,8 @@ from PIL import Image
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
 
+st.markdown("<style>div[data-testid='stVerticalBlock'] > div:nth-child(2) { margin-top: -20px; }</style>", unsafe_allow_html=True)
+
 col1, col2 = st.columns([1, 5])  # adjust ratios as needed
 
 with col1:
