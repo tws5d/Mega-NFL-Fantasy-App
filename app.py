@@ -31,11 +31,7 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
     # Try to find the correct game
     for game in data:
         st.write("API Game:", game["home_team"], "vs", game["away_team"])
-        if (
-            game["home_team"] == team_full_name and game["away_team"] == opponent_full_name
-        ) or (
-            game["home_team"] == opponent_full_name and game["away_team"] == team_full_name
-        ):
+        if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
             dk = next((b for b in game["bookmakers"] if b["key"] == "draftkings"), None)
             if not dk:
                 continue
