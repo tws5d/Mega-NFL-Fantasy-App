@@ -24,9 +24,9 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
 
     response = requests.get(url, params=params)
     if response.status_code != 200:
-    with open("odds_log.txt", "w") as f:
-        f.write(f"API error: {response.status_code}\n{response.text}")
-    return None
+        with open("odds_log.txt", "w") as f:
+            f.write(f"API error: {response.status_code}\n{response.text}")
+        return None
     
     data = response.json()
     with open("odds_log.txt", "w") as f:
