@@ -7,7 +7,8 @@ import datetime
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from pathlib import Path
+load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 
 import requests
