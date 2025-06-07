@@ -10,6 +10,53 @@ import os
 load_dotenv()
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 
+import requests
+
+def get_implied_points(team_full_name, opponent_full_name, is_home_team):
+    url = "https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds"
+    params = {
+        "apiKey": ODDS_API_KEY,
+        "regions": "us",
+        "markets": "spreads,totals",
+        "oddsFormat": "decimal",
+        "dateFormat": "iso"
+    }
+
+    response = requests.get(url, params=params)
+    if response.status_code != 200:
+        return None
+
+    data = response.json()
+
+    # Try to find the correct game
+    for game in data:
+        if (
+            game["home_team"] == team_full_name and game["away_team"] == opponent_full_name
+        ) or (
+            game["home_team"] == opponent_full_name and game["away_team"] == team_full_name
+        ):
+            dk = next((b for b in game["bookmakers"] if b["key"] == "draftkings"), None)
+            if not dk:
+                continue
+
+            spreads = next((m for m in dk["markets"] if m["key"] == "spreads"), None)
+            totals = next((m for m in dk["markets"] if m["key"] == "totals"), None)
+            if not spreads or not totals:
+                continue
+
+            total_points = next((o["point"] for o in totals["outcomes"] if o["name"] == "Over"), None)
+            spread_dict = {o["name"]: o["point"] for o in spreads["outcomes"]}
+
+            # Determine if the opponent is the underdog
+            opponent_spread = spread_dict.get(opponent_full_name)
+            if opponent_spread is None or total_points is None:
+                return None
+
+            # Implied Points = Total Points - Opponent Spread
+            return round(total_points - opponent_spread, 1)
+
+    return None
+
 def ordinal(n):
     if 10 <= n % 100 <= 20:
         suffix = "th"
@@ -140,6 +187,17 @@ with col2:
             (schedule_df["week"] == current_week)
         ]
         opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
+        
+        team_abbr = team_to_abbr.get(player, "")
+        team_full = abbr_to_team.get(team_abbr, "")
+        opponent_full = abbr_to_team.get(opponent_abbr, "")
+
+        # Determine if selected defense is the home team
+        is_home_team = False
+        if not opponent_row.empty:
+            is_home_team = opponent_row["home_or_away"].values[0] == "home"
+
+        implied_points = get_implied_points(team_full, opponent_full, is_home_team)
 
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
         
@@ -197,4 +255,6 @@ if position == "DEF" and player:
         with stat_col2:
             st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
             st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
+            implied_display = implied_points if implied_points is not None else "??"
+            st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: {implied_display}</div>', unsafe_allow_html=True)
+
