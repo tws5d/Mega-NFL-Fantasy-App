@@ -1,6 +1,20 @@
 import streamlit as st
 from PIL import Image
 
+import pandas as pd
+import datetime
+
+# Load schedule CSV
+schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
+
+# Detect current week
+def get_current_week(start_date=datetime.date(2025, 9, 4)):
+    today = datetime.date.today()
+    delta = (today - start_date).days
+    return min((delta // 7) + 1, 18)
+
+current_week = get_current_week()
+
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
 
