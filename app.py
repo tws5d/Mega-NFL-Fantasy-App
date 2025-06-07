@@ -13,7 +13,13 @@ def get_current_week(start_date=datetime.date(2025, 9, 4)):
     delta = (today - start_date).days
     return min((delta // 7) + 1, 18)
 
-current_week = get_current_week()
+today = datetime.date.today()
+season_start = datetime.date(2025, 9, 4)
+
+if today < season_start:
+    current_week = 1
+else:
+    current_week = get_current_week()
 
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
