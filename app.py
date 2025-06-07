@@ -19,17 +19,12 @@ wr_list = ["Justin Jefferson", "Tyreek Hill", "Ja'Marr Chase"]
 te_list = ["Travis Kelce", "George Kittle", "Mark Andrews"]
 def_list = ["49ers", "Eagles", "Cowboys"]
 
-col1, col2 = st.columns([1, 5])  # adjust ratios as needed
+col1, col2 = st.columns([1, 5])
 
 with col1:
-    position = st.selectbox(
-        " ",
-        options=["QB", "RB", "WR", "TE", "FLEX", "DEF"]
-    )
+    position = st.selectbox(" ", options=["QB", "RB", "WR", "TE", "FLEX", "DEF"])
 
     if position == "DEF":
-        player = st.selectbox(" ", def_list)
-
         logo_map = {
             "49ers": "sanfrancisco_49ers_logo.png",
             "Bears": "chicago_bears_logo.png",
@@ -65,7 +60,10 @@ with col1:
             "Vikings": "minnesota_vikings_logo.png",
         }
 
-        logo_file = logo_map.get(player)
+        # Placeholder dropdown to trigger the logo display
+        team = st.selectbox(" ", def_list)
+
+        logo_file = logo_map.get(team)
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
 
@@ -80,3 +78,6 @@ with col2:
         player = st.selectbox(" ", te_list)
     elif position == "FLEX":
         player = st.selectbox(" ", rb_list + wr_list + te_list)
+    elif position == "DEF":
+        # Show same team dropdown for selection, just without the logo
+        player = st.selectbox(" ", def_list)
