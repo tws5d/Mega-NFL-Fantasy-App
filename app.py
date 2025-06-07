@@ -1,6 +1,40 @@
 import streamlit as st
 from PIL import Image
 
+import pandas as pd
+import datetime
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+ODDS_API_KEY = os.getenv("ODDS_API_KEY")
+
+def ordinal(n):
+    if 10 <= n % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+# Load schedule CSV
+schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
+offense_df = pd.read_csv("offense_ranks_2024.csv")
+
+# Detect current week
+def get_current_week(start_date=datetime.date(2025, 9, 4)):
+    today = datetime.date.today()
+    delta = (today - start_date).days
+    return min((delta // 7) + 1, 18)
+
+today = datetime.date.today()
+season_start = datetime.date(2025, 9, 4)
+
+if today < season_start:
+    current_week = 1
+else:
+    current_week = get_current_week()
+
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
 
@@ -58,6 +92,28 @@ logo_map = {
     "Vikings": "minnesota_vikings_logo.png",
 }
 
+team_to_abbr = {
+    "49ers": "SF", "Bears": "CHI", "Bengals": "CIN", "Bills": "BUF", "Broncos": "DEN",
+    "Browns": "CLE", "Buccaneers": "TB", "Cardinals": "ARI", "Chargers": "LAC",
+    "Chiefs": "KC", "Colts": "IND", "Commanders": "WAS", "Cowboys": "DAL",
+    "Dolphins": "MIA", "Eagles": "PHI", "Falcons": "ATL", "Giants": "NYG",
+    "Jaguars": "JAC", "Jets": "NYJ", "Lions": "DET", "Packers": "GB",
+    "Panthers": "CAR", "Patriots": "NE", "Raiders": "LV", "Rams": "LAR",
+    "Ravens": "BAL", "Saints": "NO", "Seahawks": "SEA", "Steelers": "PIT",
+    "Texans": "HOU", "Titans": "TEN", "Vikings": "MIN"
+}
+
+abbr_to_team = {
+    "SF": "San Francisco 49ers", "CHI": "Chicago Bears", "CIN": "Cincinnati Bengals", "BUF": "Buffalo Bills",
+    "DEN": "Denver Broncos", "CLE": "Cleveland Browns", "TB": "Tampa Bay Buccaneers", "ARI": "Arizona Cardinals",
+    "LAC": "Los Angeles Chargers", "KC": "Kansas City Chiefs", "IND": "Indianapolis Colts", "WAS": "Washington Commanders",
+    "DAL": "Dallas Cowboys", "MIA": "Miami Dolphins", "PHI": "Philadelphia Eagles", "ATL": "Atlanta Falcons",
+    "NYG": "New York Giants", "JAC": "Jacksonville Jaguars", "NYJ": "New York Jets", "DET": "Detroit Lions",
+    "GB": "Green Bay Packers", "CAR": "Carolina Panthers", "NE": "New England Patriots", "LV": "Las Vegas Raiders",
+    "LAR": "Los Angeles Rams", "BAL": "Baltimore Ravens", "NO": "New Orleans Saints", "SEA": "Seattle Seahawks",
+    "PIT": "Pittsburgh Steelers", "HOU": "Houston Texans", "TEN": "Tennessee Titans", "MIN": "Minnesota Vikings"
+}
+
 col1, col2 = st.columns([1, 5])
 
 with col1:
@@ -78,9 +134,63 @@ with col2:
     elif position == "DEF":
         player = st.selectbox(" ", def_list)
 
+    if position == "DEF" and player:
+        opponent_row = schedule_df[
+            (schedule_df["team"] == team_to_abbr.get(player, "")) &
+            (schedule_df["week"] == current_week)
+        ]
+        opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
+
+        offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
+        
+        total_rank = offense_row["total_offense_rank"].values[0] if not offense_row.empty else "??"
+        rush_rank = offense_row["rush_rank"].values[0] if not offense_row.empty else "??"
+        pass_rank = offense_row["pass_rank"].values[0] if not offense_row.empty else "??"
+
+        # Emoji indicator based on offensive strength
+        if total_rank <= 10:
+            indicator = "⛔"
+        elif 11 <= total_rank <= 20:
+            indicator = "🟡"
+        else:
+            indicator = "✅"
+
+        # Emoji for rushing offense rank
+        if rush_rank <= 10:
+            rush_indicator = "⛔"
+        elif 11 <= rush_rank <= 20:
+            rush_indicator = "🟡"
+        else:
+            rush_indicator = "✅"
+
+        # Emoji for passing offense rank
+        if pass_rank <= 10:
+            pass_indicator = "⛔"
+        elif 11 <= pass_rank <= 20:
+            pass_indicator = "🟡"
+        else:
+            pass_indicator = "✅"
+ 
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
         logo_file = logo_map.get(player)
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
+
+# NEW ROW FOR STATS — BELOW EVERYTHING
+col1_stats, col2_stats = st.columns([1, 5])
+
+with col2_stats:
+    st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
+    stat_col1, stat_col2 = st.columns(2)
+
+    with stat_col1:
+        st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
+
+    with stat_col2:
+        st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
