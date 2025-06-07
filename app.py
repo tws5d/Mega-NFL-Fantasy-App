@@ -181,10 +181,6 @@ if position == "DEF" and player:
                 width=100,
                 output_format="PNG"
             )
-            st.markdown(
-                "<style>img { max-height: 90px !important; object-fit: contain; }</style>",
-                unsafe_allow_html=True
-            )
 
     # NEW ROW FOR STATS — BELOW EVERYTHING
     col1_stats, col2_stats = st.columns([1, 5])
