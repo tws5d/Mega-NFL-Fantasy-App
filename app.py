@@ -176,14 +176,11 @@ if position == "DEF" and player:
     with col1:
         logo_file = logo_map.get(player)
         if logo_file:
-            st.markdown(
-                """
-                <div style="width: 1000px; height: 500px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                """,
-                unsafe_allow_html=True
+            st.image(
+                f"Logos/{logo_file}",
+                output_format="PNG",
+                width=120  # you can tweak this if needed
             )
-            st.image(f"Logos/{logo_file}", output_format="PNG")
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # NEW ROW FOR STATS — BELOW EVERYTHING
     col1_stats, col2_stats = st.columns([1, 5])
