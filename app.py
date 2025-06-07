@@ -83,32 +83,7 @@ logo_map = {
     "Steelers": "pittsburgh_steelers_logo.png",
     "Texans": "houston_texans_logo.png",
     "Titans": "tennessee_titans_logo.png",
-    "Vikings": "minnesota_vikings_logo.png"
-}
-
-    "49ers": "sanfrancisco_49ers_logo.png",
-    "Bears": "chicago_bears_logo.png",
-    "Bengals": "cincinnati_bengals_logo.png",
-    "Bills": "buffalo_bills_logo.png",
-    "Broncos": "denver_broncos_logo.png",
-    "Browns": "cleveland_browns_logo.png",
-    "Buccaneers": "tampabay_buccaneers_logo.png",
-    "Cardinals": "arizona_cardinals_logo.png",
-    "Chargers": "losangeles_chargers_logo.png",
-    "Chiefs": "kansas_city_chiefs_logo.png",
-    "Colts": "indianapolis_colts_logo.png",
-    "Commanders": "washington_commanders_logo.png",
-    "Cowboys": "dallas_cowboys_logo.png",
-    "Dolphins": "miami_dolphins_logo.png",
-    "Eagles": "philadelphia_eagles_logo.png",
-    "Falcons": "atlanta_falcons_logo.png",
-    "Giants": "newyork_giants_logo.png",
-    "Jaguars": "jacksonville_jaguars_logo.png",
-    "Jets": "newyork_jets_logo.png",
-    "Lions": "detroit_lions_logo.png",
-    "Packers": "greenbay_packers_logo.png",
-    "Panthers": "carolina_panthers_logo.png",
-    "Patriots": "newengland_pat...
+    "Vikings": "minnesota_vikings_logo.png",
 }
 
 team_to_abbr = {
@@ -122,7 +97,16 @@ team_to_abbr = {
     "Texans": "HOU", "Titans": "TEN", "Vikings": "MIN"
 }
 
-abbr_to_team = {v: k for k, v in team_to_abbr.items()}
+abbr_to_team = {
+    "SF": "San Francisco 49ers", "CHI": "Chicago Bears", "CIN": "Cincinnati Bengals", "BUF": "Buffalo Bills",
+    "DEN": "Denver Broncos", "CLE": "Cleveland Browns", "TB": "Tampa Bay Buccaneers", "ARI": "Arizona Cardinals",
+    "LAC": "Los Angeles Chargers", "KC": "Kansas City Chiefs", "IND": "Indianapolis Colts", "WAS": "Washington Commanders",
+    "DAL": "Dallas Cowboys", "MIA": "Miami Dolphins", "PHI": "Philadelphia Eagles", "ATL": "Atlanta Falcons",
+    "NYG": "New York Giants", "JAC": "Jacksonville Jaguars", "NYJ": "New York Jets", "DET": "Detroit Lions",
+    "GB": "Green Bay Packers", "CAR": "Carolina Panthers", "NE": "New England Patriots", "LV": "Las Vegas Raiders",
+    "LAR": "Los Angeles Rams", "BAL": "Baltimore Ravens", "NO": "New Orleans Saints", "SEA": "Seattle Seahawks",
+    "PIT": "Pittsburgh Steelers", "HOU": "Houston Texans", "TEN": "Tennessee Titans", "MIN": "Minnesota Vikings"
+}
 
 col1, col2 = st.columns([1, 5])
 
@@ -152,11 +136,12 @@ with col2:
         opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
 
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
-
+        
         total_rank = offense_row["total_offense_rank"].values[0] if not offense_row.empty else "??"
         rush_rank = offense_row["rush_rank"].values[0] if not offense_row.empty else "??"
         pass_rank = offense_row["pass_rank"].values[0] if not offense_row.empty else "??"
 
+        # Emoji indicator based on offensive strength
         if total_rank <= 10:
             indicator = "⛔"
         elif 11 <= total_rank <= 20:
@@ -164,6 +149,7 @@ with col2:
         else:
             indicator = "✅"
 
+        # Emoji for rushing offense rank
         if rush_rank <= 10:
             rush_indicator = "⛔"
         elif 11 <= rush_rank <= 20:
@@ -171,6 +157,7 @@ with col2:
         else:
             rush_indicator = "✅"
 
+        # Emoji for passing offense rank
         if pass_rank <= 10:
             pass_indicator = "⛔"
         elif 11 <= pass_rank <= 20:
@@ -189,7 +176,8 @@ with col2:
             st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
             st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
             st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
-
+    
+# Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
         logo_file = logo_map.get(player)
