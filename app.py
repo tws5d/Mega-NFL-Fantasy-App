@@ -159,8 +159,8 @@ with col2:
             pass_indicator = "⛔"
 
         st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {total_rank}th Overall</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">Passing Offense Rank: {pass_rank}th</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {pass_rank}th</div>', unsafe_allow_html=True)
         
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
