@@ -30,7 +30,7 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
         return None
     
     data = response.json()
-    st.markdown(f"Games returned: {len(data)}")
+    st.markdown(f"Games returned: {len(week_games)}")
     week_games = []
 
     current_week = ((datetime.date.today() - datetime.date(2025, 9, 4)).days // 7) + 1
