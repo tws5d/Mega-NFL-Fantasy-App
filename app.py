@@ -178,19 +178,19 @@ if position == "DEF" and player:
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
 
-# NEW ROW FOR STATS — BELOW EVERYTHING
-col1_stats, col2_stats = st.columns([1, 5])
+    # NEW ROW FOR STATS — BELOW EVERYTHING
+    col1_stats, col2_stats = st.columns([1, 5])
 
-with col2_stats:
-    st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
-    stat_col1, stat_col2 = st.columns(2)
+    with col2_stats:
+        st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
+        stat_col1, stat_col2 = st.columns(2)
 
-    with stat_col1:
-        st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
+        with stat_col1:
+            st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
 
-    with stat_col2:
-        st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
-        st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
+        with stat_col2:
+            st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
