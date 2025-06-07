@@ -81,6 +81,17 @@ logo_map = {
     "Vikings": "minnesota_vikings_logo.png",
 }
 
+team_to_abbr = {
+    "49ers": "SF", "Bears": "CHI", "Bengals": "CIN", "Bills": "BUF", "Broncos": "DEN",
+    "Browns": "CLE", "Buccaneers": "TB", "Cardinals": "ARI", "Chargers": "LAC",
+    "Chiefs": "KC", "Colts": "IND", "Commanders": "WAS", "Cowboys": "DAL",
+    "Dolphins": "MIA", "Eagles": "PHI", "Falcons": "ATL", "Giants": "NYG",
+    "Jaguars": "JAC", "Jets": "NYJ", "Lions": "DET", "Packers": "GB",
+    "Panthers": "CAR", "Patriots": "NE", "Raiders": "LV", "Rams": "LAR",
+    "Ravens": "BAL", "Saints": "NO", "Seahawks": "SEA", "Steelers": "PIT",
+    "Texans": "HOU", "Titans": "TEN", "Vikings": "MIN"
+}
+
 col1, col2 = st.columns([1, 5])
 
 with col1:
