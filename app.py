@@ -30,17 +30,21 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
         return None
     
     data = response.json()
-    st.markdown(f"Games returned: {len(week_games)}")
-    week_games = []
 
     current_week = ((datetime.date.today() - datetime.date(2025, 9, 4)).days // 7) + 1
-    
-    for game in week_games:
+    week_games = []
+
+    # Filter only the games for the current week
+    for game in data:
         game_time = datetime.datetime.fromisoformat(game["commence_time"].replace("Z", "+00:00"))
         game_week = ((game_time.date() - datetime.date(2025, 9, 4)).days // 7) + 1
         if game_week == current_week:
             week_games.append(game)
 
+    # Debug print
+    st.markdown(f"Games returned: {len(week_games)}")
+
+    # Now loop through only this week's games
     for game in week_games:
         if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
             dk = next((b for b in game["bookmakers"] if b["key"] == "draftkings"), None)
