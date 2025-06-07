@@ -78,6 +78,11 @@ with col2:
     elif position == "DEF":
         player = st.selectbox(" ", def_list)
 
+    if position == "DEF" and player:
+        st.markdown("Opponent: ??? (??th in Total Offense)")
+        st.markdown("Rushing Offense Rank: ??th")
+        st.markdown("Passing Offense Rank: ??th")
+
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
@@ -85,7 +90,4 @@ if position == "DEF" and player:
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
 
-    with col2:
-        st.markdown("Opponent: ??? (??th in Total Offense)")
-        st.markdown("Rushing Offense Rank: ??th")
-        st.markdown("Passing Offense Rank: ??th")
+
