@@ -7,6 +7,9 @@ import datetime
 # Load schedule CSV
 schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
 
+st.write("Unique team names in schedule:")
+st.write(schedule_df["team"].unique())
+
 # Detect current week
 def get_current_week(start_date=datetime.date(2025, 9, 4)):
     today = datetime.date.today()
