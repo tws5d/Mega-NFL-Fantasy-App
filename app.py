@@ -119,9 +119,7 @@ with col2:
         st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent} (??th in Total Offense)</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
-       
-        st.dataframe(schedule_df[schedule_df["team"] == player])
-
+        
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
