@@ -136,27 +136,27 @@ with col2:
 
         # Emoji indicator based on offensive strength
         if total_rank <= 10:
-            indicator = "✅"
+            indicator = "⛔"
         elif 11 <= total_rank <= 20:
             indicator = "🟡"
         else:
-            indicator = "⛔"
+            indicator = "✅"
 
         # Emoji for rushing offense rank
         if rush_rank <= 10:
-            rush_indicator = "✅"
+            rush_indicator = "⛔"
         elif 11 <= rush_rank <= 20:
             rush_indicator = "🟡"
         else:
-            rush_indicator = "⛔"
+            rush_indicator = "✅"
 
         # Emoji for passing offense rank
         if pass_rank <= 10:
-            pass_indicator = "✅"
+            pass_indicator = "⛔"
         elif 11 <= pass_rank <= 20:
             pass_indicator = "🟡"
         else:
-            pass_indicator = "⛔"
+            pass_indicator = "✅"
 
         st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {total_rank}th Overall</div>', unsafe_allow_html=True)
         st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
