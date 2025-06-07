@@ -84,3 +84,8 @@ if position == "DEF" and player:
         logo_file = logo_map.get(player)
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
+
+    with col2:
+        st.markdown("Opponent: ??? (??th in Total Offense)")
+        st.markdown("Rushing Offense Rank: ??th")
+        st.markdown("Passing Offense Rank: ??th")
