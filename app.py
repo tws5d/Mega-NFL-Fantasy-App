@@ -6,6 +6,7 @@ import datetime
 
 # Load schedule CSV
 schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
+offense_df = pd.read_csv("offense_ranks_2024.csv")
 
 # Detect current week
 def get_current_week(start_date=datetime.date(2025, 9, 4)):
@@ -114,11 +115,16 @@ with col2:
             (schedule_df["team"] == team_to_abbr.get(player, "")) &
             (schedule_df["week"] == current_week)
         ]
-        opponent = opponent_row["opponent"].values[0] if not opponent_row.empty else "Unknown"
+        opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
 
-        st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent} (??th in Total Offense)</div>', unsafe_allow_html=True)
-        st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
-        st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
+        offense_row = offense_df[offense_df["team"] == opponent_abbr]
+        total_rank = offense_row["total_offense_rank"].values[0] if not offense_row.empty else "??"
+        rush_rank = offense_row["rush_rank"].values[0] if not offense_row.empty else "??"
+        pass_rank = offense_row["pass_rank"].values[0] if not offense_row.empty else "??"
+
+        st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent_abbr} ({total_rank}th in Total Offense)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="margin-bottom: -8px;">Passing Offense Rank: {pass_rank}th</div>', unsafe_allow_html=True)
         
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
