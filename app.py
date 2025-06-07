@@ -90,7 +90,16 @@ team_to_abbr = {
     "Texans": "HOU", "Titans": "TEN", "Vikings": "MIN"
 }
 
-abbr_to_team = {v: k for k, v in team_to_abbr.items()}
+abbr_to_team = {
+    "SF": "San Francisco 49ers", "CHI": "Chicago Bears", "CIN": "Cincinnati Bengals", "BUF": "Buffalo Bills",
+    "DEN": "Denver Broncos", "CLE": "Cleveland Browns", "TB": "Tampa Bay Buccaneers", "ARI": "Arizona Cardinals",
+    "LAC": "Los Angeles Chargers", "KC": "Kansas City Chiefs", "IND": "Indianapolis Colts", "WAS": "Washington Commanders",
+    "DAL": "Dallas Cowboys", "MIA": "Miami Dolphins", "PHI": "Philadelphia Eagles", "ATL": "Atlanta Falcons",
+    "NYG": "New York Giants", "JAC": "Jacksonville Jaguars", "NYJ": "New York Jets", "DET": "Detroit Lions",
+    "GB": "Green Bay Packers", "CAR": "Carolina Panthers", "NE": "New England Patriots", "LV": "Las Vegas Raiders",
+    "LAR": "Los Angeles Rams", "BAL": "Baltimore Ravens", "NO": "New Orleans Saints", "SEA": "Seattle Seahawks",
+    "PIT": "Pittsburgh Steelers", "HOU": "Houston Texans", "TEN": "Tennessee Titans", "MIN": "Minnesota Vikings"
+}
 
 col1, col2 = st.columns([1, 5])
 
