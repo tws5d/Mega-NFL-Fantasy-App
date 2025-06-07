@@ -93,9 +93,16 @@ with col2:
         player = st.selectbox(" ", def_list)
 
     if position == "DEF" and player:
-        st.markdown('<div style="margin-bottom: -8px;">Opponent: ??? (??th in Total Offense)</div>', unsafe_allow_html=True)
+        opponent_row = schedule_df[
+            (schedule_df["team"] == player) &
+            (schedule_df["week"] == current_week)
+        ]
+        opponent = opponent_row["opponent"].values[0] if not opponent_row.empty else "Unknown"
+
+        st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent} (??th in Total Offense)</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
+
         
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
