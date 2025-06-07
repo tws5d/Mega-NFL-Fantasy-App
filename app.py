@@ -209,6 +209,8 @@ with col2:
             
         
         implied_points = get_implied_points(team_full, opponent_full, is_home_team)
+        st.write("Implied points result:", implied_points)
+
 
         offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
         
