@@ -30,7 +30,7 @@ logo_map = {
     "Bills": "buffalo_bills_logo.png",
     "Broncos": "denver_broncos_logo.png",
     "Browns": "cleveland_browns_logo.png",
-    "Buccaneers": "tampa_buccaneers_logo.png",
+    "Buccaneers": "tampabay_buccaneers_logo.png",
     "Cardinals": "arizona_cardinals_logo.png",
     "Chargers": "losangeles_chargers_logo.png",
     "Chiefs": "kansas_city_chiefs_logo.png",
