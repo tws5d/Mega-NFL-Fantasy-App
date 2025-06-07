@@ -48,7 +48,12 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
             spread_dict = {o["name"]: o["point"] for o in spreads["outcomes"]}
 
             # Determine if the opponent is the underdog
-            opponent_spread = spread_dict.get(opponent_full_name)
+            # Try exact match or fallback to partial match
+            opponent_spread = next(
+                (v for k, v in spread_dict.items() if opponent_full_name.lower() in k.lower()),
+                None
+            )
+
             if opponent_spread is None or total_points is None:
                 return None
 
