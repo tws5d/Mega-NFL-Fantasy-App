@@ -7,7 +7,7 @@ st.image(image, use_container_width=True)
 st.markdown(
     """<style>
     div[data-testid="stHorizontalBlock"] {
-        margin-top: -35px;
+        margin-top: -50px;
     }
     </style>""",
     unsafe_allow_html=True
