@@ -4,6 +4,12 @@ from PIL import Image
 import pandas as pd
 import datetime
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+ODDS_API_KEY = os.getenv("ODDS_API_KEY")
+
 def ordinal(n):
     if 10 <= n % 100 <= 20:
         suffix = "th"
