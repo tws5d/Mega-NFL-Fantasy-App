@@ -79,10 +79,10 @@ with col2:
         player = st.selectbox(" ", def_list)
 
     if position == "DEF" and player:
-        st.markdown("Opponent: ??? (??th in Total Offense)")
-        st.markdown("Rushing Offense Rank: ??th")
-        st.markdown("Passing Offense Rank: ??th")
-
+        st.markdown('<div style="margin-bottom: -8px;">Opponent: ??? (??th in Total Offense)</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
+        
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
