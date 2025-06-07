@@ -29,6 +29,7 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
         return None
     
     data = response.json()
+    st.markdown(f"Games returned: {len(data)}")
     
     for game in data:
         if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
