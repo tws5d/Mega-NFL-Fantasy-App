@@ -117,7 +117,7 @@ with col2:
         ]
         opponent_abbr = opponent_row["opponent"].values[0] if not opponent_row.empty else ""
 
-        offense_row = offense_df[offense_df["team"] == opponent_abbr]
+        offense_row = offense_df[offense_df["team"] == abbr_to_team.get(opponent_abbr, "")]
         st.write("DEBUG: opponent_abbr =", opponent_abbr)
         st.dataframe(offense_df[offense_df["team"] == opponent_abbr])
 
