@@ -195,7 +195,7 @@ with col2:
         # Determine if selected defense is the home team
         is_home_team = False
         if not opponent_row.empty:
-            is_home_team = opponent_row["home_or_away"].values[0] == "home"
+            is_home_team = opponent_row["home"].values[0] == "home"
 
         implied_points = get_implied_points(team_full, opponent_full, is_home_team)
 
