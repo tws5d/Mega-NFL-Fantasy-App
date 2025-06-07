@@ -17,38 +17,20 @@ qb_list = ["Patrick Mahomes", "Josh Allen", "Jalen Hurts"]
 rb_list = ["Christian McCaffrey", "Austin Ekeler", "Derrick Henry"]
 wr_list = ["Justin Jefferson", "Tyreek Hill", "Ja'Marr Chase"]
 te_list = ["Travis Kelce", "George Kittle", "Mark Andrews"]
-def_list = ["49ers", "Eagles", "Cowboys"]
+def_list = ["49ers", "Bears", "Bengals", "Bills", "Broncos", "Browns", "Buccaneers",
+    "Cardinals", "Chargers", "Chiefs", "Colts", "Commanders", "Cowboys",
+    "Dolphins", "Eagles", "Falcons", "Giants", "Jaguars", "Jets", "Lions",
+    "Packers", "Panthers", "Patriots", "Raiders", "Rams", "Ravens", "Saints",
+    "Seahawks", "Steelers", "Texans", "Titans", "Vikings"]
 
-col1, col2 = st.columns([1, 5])  # adjust ratios as needed
-
-with col1:
-    position = st.selectbox(
-        " ",
-        options=["QB", "RB", "WR", "TE", "FLEX", "DEF"]
-    )
-
-with col2:
-    if position == "QB":
-        player = st.selectbox(" ", qb_list)
-    elif position == "RB":
-        player = st.selectbox(" ", rb_list)
-    elif position == "WR":
-        player = st.selectbox(" ", wr_list)
-    elif position == "TE":
-        player = st.selectbox(" ", te_list)
-    elif position == "FLEX":
-        player = st.selectbox(" ", rb_list + wr_list + te_list)
-    
-    elif position == "DEF":
-        player = st.selectbox(" ", def_list)
-        logo_map = {
+logo_map = {
     "49ers": "sanfrancisco_49ers_logo.png",
     "Bears": "chicago_bears_logo.png",
     "Bengals": "cincinnati_bengals_logo.png",
     "Bills": "buffalo_bills_logo.png",
     "Broncos": "denver_broncos_logo.png",
     "Browns": "cleveland_browns_logo.png",
-    "Buccaneers": "tampa_buccaneers_logo.png",
+    "Buccaneers": "tampabay_buccaneers_logo.png",
     "Cardinals": "arizona_cardinals_logo.png",
     "Chargers": "losangeles_chargers_logo.png",
     "Chiefs": "kansas_city_chiefs_logo.png",
@@ -75,9 +57,30 @@ with col2:
     "Titans": "tennessee_titans_logo.png",
     "Vikings": "minnesota_vikings_logo.png",
 }
-        logo_file = logo_map.get(player, None)
 
-    if logo_file:
-        st.image(f"Logos/{logo_file}", width=100)
+col1, col2 = st.columns([1, 5])
 
+with col1:
+    position = st.selectbox(" ", options=["QB", "RB", "WR", "TE", "FLEX", "DEF"])
 
+with col2:
+    player = None
+    if position == "QB":
+        player = st.selectbox(" ", qb_list)
+    elif position == "RB":
+        player = st.selectbox(" ", rb_list)
+    elif position == "WR":
+        player = st.selectbox(" ", wr_list)
+    elif position == "TE":
+        player = st.selectbox(" ", te_list)
+    elif position == "FLEX":
+        player = st.selectbox(" ", rb_list + wr_list + te_list)
+    elif position == "DEF":
+        player = st.selectbox(" ", def_list)
+
+# Show logo in col1 if DEF is selected and player is chosen
+if position == "DEF" and player:
+    with col1:
+        logo_file = logo_map.get(player)
+        if logo_file:
+            st.image(f"Logos/{logo_file}", width=100)
