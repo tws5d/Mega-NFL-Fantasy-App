@@ -103,7 +103,10 @@ with col2:
         st.markdown('<div style="margin-bottom: -8px;">Rushing Offense Rank: ??th</div>', unsafe_allow_html=True)
         st.markdown('<div style="margin-bottom: -8px;">Passing Offense Rank: ??th</div>', unsafe_allow_html=True)
 
-        
+        st.write("DEBUG: player =", player)
+        st.write("DEBUG: current_week =", current_week)
+        st.dataframe(schedule_df[schedule_df["team"] == player])
+
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
