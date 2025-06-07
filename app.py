@@ -90,6 +90,8 @@ team_to_abbr = {
     "Texans": "HOU", "Titans": "TEN", "Vikings": "MIN"
 }
 
+abbr_to_team = {v: k for k, v in team_to_abbr.items()}
+
 col1, col2 = st.columns([1, 5])
 
 with col1:
