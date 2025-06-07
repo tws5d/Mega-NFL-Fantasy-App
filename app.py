@@ -164,22 +164,23 @@ with col2:
             pass_indicator = "🟡"
         else:
             pass_indicator = "✅"
-
-        stat_col1, stat_col2 = st.columns(2)
-
-        with stat_col1:
-            st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
-
-        with stat_col2:
-            st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
-    
+ 
 # Show logo in col1 if DEF is selected and player is chosen
 if position == "DEF" and player:
     with col1:
         logo_file = logo_map.get(player)
         if logo_file:
             st.image(f"Logos/{logo_file}", width=100)
+
+# NEW ROW FOR STATS — BELOW EVERYTHING
+stat_col1, stat_col2 = st.columns(2)
+
+with stat_col1:
+    st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
+
+with stat_col2:
+    st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: 13</div>', unsafe_allow_html=True)
