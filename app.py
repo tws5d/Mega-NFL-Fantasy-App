@@ -134,7 +134,15 @@ with col2:
         rush_rank = offense_row["rush_rank"].values[0] if not offense_row.empty else "??"
         pass_rank = offense_row["pass_rank"].values[0] if not offense_row.empty else "??"
 
-        st.markdown(f'<div style="margin-bottom: -8px;">Opponent: {opponent_abbr} - {total_rank}th Overall</div>', unsafe_allow_html=True)
+        # Emoji indicator based on offensive strength
+        if total_rank <= 10:
+            indicator = "✅"
+        elif 11 <= total_rank <= 20:
+            indicator = "🟡"
+        else:
+            indicator = "⛔"
+
+        st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {total_rank}th Overall</div>', unsafe_allow_html=True)
         st.markdown(f'<div style="margin-bottom: -8px;">Rushing Offense Rank: {rush_rank}th</div>', unsafe_allow_html=True)
         st.markdown(f'<div style="margin-bottom: -8px;">Passing Offense Rank: {pass_rank}th</div>', unsafe_allow_html=True)
         
