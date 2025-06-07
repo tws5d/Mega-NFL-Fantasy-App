@@ -35,7 +35,7 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
 
     current_week = ((datetime.date.today() - datetime.date(2025, 9, 4)).days // 7) + 1
     
-    for game in data:
+    for game in week_games:
         game_time = datetime.datetime.fromisoformat(game["commence_time"].replace("Z", "+00:00"))
         game_week = ((game_time.date() - datetime.date(2025, 9, 4)).days // 7) + 1
         if game_week == current_week:
