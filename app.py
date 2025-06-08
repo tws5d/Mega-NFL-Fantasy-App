@@ -320,6 +320,14 @@ if position == "DEF" and player:
             st.markdown(f'<div style="margin-bottom: -8px;">{indicator} Opponent: {opponent_abbr} - {ordinal(total_rank)} Overall</div>', unsafe_allow_html=True)
             st.markdown(f'<div style="margin-bottom: -8px;">{rush_indicator} Rushing Offense Rank: {ordinal(rush_rank)}</div>', unsafe_allow_html=True)
             st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
+            
+            # Key Offensive Injuries header
+            st.markdown(
+                "<div style='text-align:center; line-height:1; margin-top:16px;'>"
+                "<div style='color:#2ECC40; font-weight:bold; font-size:24px;'>Key Offensive Injuries</div>"
+                "</div>",
+                unsafe_allow_html=True
+            )
 
         with stat_col2:
             # Dynamic turnovers per game
