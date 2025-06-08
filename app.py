@@ -67,6 +67,40 @@ offense_df = pd.read_csv("offense_ranks_2024.csv")
 
 # Load 2024 team-level sacks allowed per game
 sacks_2024_df = pd.read_csv("2024.aSacks.avg.csv")
+# Load 2024 turnovers (giveaways) data
+giveaways_2024_df = pd.read_csv('2024.Giveaways.csv')
+# Load 2025 turnovers data, if available
+try:
+    giveaways_2025_df = pd.read_csv('giveaways_2025.csv')
+except FileNotFoundError:
+    giveaways_2025_df = pd.DataFrame(columns=['Team','Week','Giveaways'])
+
+def get_turnovers_per_game(team_full, current_week, giveaways_2025_df):
+    # Week 1: use 2024 average giveaways (turnovers allowed)
+    if current_week == 1:
+        city = ' '.join(team_full.split()[:-1]).lower()
+        row = giveaways_2024_df[giveaways_2024_df['Team'].str.lower() == city]
+        if not row.empty:
+            return row['Avg Giveaways'].iloc[0]
+        return None
+    # Week 2: use that team’s Week-1 giveaways
+    if current_week == 2:
+        row = giveaways_2025_df[
+            (giveaways_2025_df['Team'].str.lower() == team_full.lower()) &
+            (giveaways_2025_df['Week'] == 1)
+        ]
+        if not row.empty:
+            return row['Giveaways'].iloc[0]
+        return None
+    # Weeks 3+: average of prior weeks
+    past = giveaways_2025_df[
+        (giveaways_2025_df['Team'].str.lower() == team_full.lower()) &
+        (giveaways_2025_df['Week'] < current_week)
+    ]
+    if not past.empty:
+        return past['Giveaways'].mean()
+    return None
+
 # Load 2025 team-level sacks data (update path when available)
 try:
     sacks_2025_df = pd.read_csv("sacks_2025.csv")
@@ -79,6 +113,7 @@ def get_sacks_allowed(team_full, current_week, sacks_2025_df):
         # derive city by dropping team nickname from full name
         city = " ".join(team_full.split()[:-1]).lower()
         lookup_name = city
+        st.write("🔍 DEBUG lookup_name =", lookup_name)
         row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
@@ -288,7 +323,10 @@ if position == "DEF" and player:
             st.markdown(f'<div style="margin-bottom: -8px;">{pass_indicator} Passing Offense Rank: {ordinal(pass_rank)}</div>', unsafe_allow_html=True)
 
         with stat_col2:
-            st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
+            # Dynamic turnovers per game
+            turnovers_allowed = get_turnovers_per_game(opponent_full, current_week, giveaways_2025_df)
+            turnovers_display = round(turnovers_allowed, 1) if turnovers_allowed is not None else '??'
+            st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: {turnovers_display}</div>', unsafe_allow_html=True)
             # Dynamic sacks allowed per game
             sacks_allowed = get_sacks_allowed(opponent_full, current_week, sacks_2025_df)
             sacks_display = round(sacks_allowed, 1) if sacks_allowed is not None else "??"
