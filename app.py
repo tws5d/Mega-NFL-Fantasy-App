@@ -79,6 +79,7 @@ def get_sacks_allowed(team_full, current_week, sacks_2025_df):
         # derive city by dropping team nickname from full name
         city = " ".join(team_full.split()[:-1]).lower()
         lookup_name = city
+        st.write("🔍 DEBUG lookup_name =", lookup_name)
         row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
@@ -290,7 +291,7 @@ if position == "DEF" and player:
         with stat_col2:
             st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
             # Dynamic sacks allowed per game
-            sacks_allowed = get_sacks_allowed(team_full, current_week, sacks_2025_df)
+            sacks_allowed = get_sacks_allowed(opponent_full, current_week, sacks_2025_df)
             sacks_display = round(sacks_allowed, 1) if sacks_allowed is not None else "??"
             st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: {sacks_display}</div>', unsafe_allow_html=True)
             implied_display = implied_points if implied_points is not None else "??"
