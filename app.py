@@ -118,6 +118,8 @@ if today < season_start:
 else:
     current_week = get_current_week()
 
+st.write("🔍 DEBUG current_week =", current_week)
+
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
 
