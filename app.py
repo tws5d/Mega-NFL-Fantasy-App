@@ -73,17 +73,17 @@ try:
 except FileNotFoundError:
     sacks_2025_df = pd.DataFrame(columns=["Team", "Week", "Sacks"])
 
-def get_sacks_allowed(team_full_name, current_week, sacks_2025_df):
+def get_sacks_allowed(team_full, current_week, sacks_2025_df):
     # Week 1: use 2024 average
     if current_week == 1:
-        row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == team_full_name.lower()]
+        row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == team_full.lower()]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
         return None
     # Week 2: use that team’s Week-1 total if available
     if current_week == 2:
         row = sacks_2025_df[
-            (sacks_2025_df["Team"].str.lower() == team_full_name.lower()) &
+            (sacks_2025_df["Team"].str.lower() == team_full.lower()) &
             (sacks_2025_df["Week"] == 1)
         ]
         if not row.empty:
@@ -91,7 +91,7 @@ def get_sacks_allowed(team_full_name, current_week, sacks_2025_df):
         return None
     # Weeks 3+: average of prior weeks
     past = sacks_2025_df[
-        (sacks_2025_df["Team"].str.lower() == team_full_name.lower()) &
+        (sacks_2025_df["Team"].str.lower() == team_full.lower()) &
         (sacks_2025_df["Week"] < current_week)
     ]
     if not past.empty:
@@ -287,7 +287,7 @@ if position == "DEF" and player:
         with stat_col2:
             st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
             # Dynamic sacks allowed per game
-            sacks_allowed = get_sacks_allowed(team_full_name, current_week, sacks_2025_df)
+            sacks_allowed = get_sacks_allowed(team_full, current_week, sacks_2025_df)
             sacks_display = round(sacks_allowed, 1) if sacks_allowed is not None else "??"
             st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: {sacks_display}</div>', unsafe_allow_html=True)
             implied_display = implied_points if implied_points is not None else "??"
