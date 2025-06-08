@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
+st.warning(f"ODDS_API_KEY loaded as: {repr(ODDS_API_KEY)}")
 
 import requests
 
@@ -64,6 +65,40 @@ def ordinal(n):
 # Load schedule CSV
 schedule_df = pd.read_csv("nfl_2025_full_schedule.csv")
 offense_df = pd.read_csv("offense_ranks_2024.csv")
+
+# Load 2024 team-level sacks allowed per game
+sacks_2024_df = pd.read_csv("2024.aSacks.avg.csv")
+# Load 2025 team-level sacks data (update path when available)
+try:
+    sacks_2025_df = pd.read_csv("sacks_2025.csv")
+except FileNotFoundError:
+    sacks_2025_df = pd.DataFrame(columns=["Team", "Week", "Sacks"])
+
+def get_sacks_allowed(team_full_name, current_week, sacks_2025_df):
+    # Week 1: use 2024 average
+    if current_week == 1:
+        row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == team_full_name.lower()]
+        if not row.empty:
+            return row["Sacks Allowed Per Game"].iloc[0]
+        return None
+    # Week 2: use that team’s Week-1 total if available
+    if current_week == 2:
+        row = sacks_2025_df[
+            (sacks_2025_df["Team"].str.lower() == team_full_name.lower()) &
+            (sacks_2025_df["Week"] == 1)
+        ]
+        if not row.empty:
+            return row["Sacks"].iloc[0]
+        return None
+    # Weeks 3+: average of prior weeks
+    past = sacks_2025_df[
+        (sacks_2025_df["Team"].str.lower() == team_full_name.lower()) &
+        (sacks_2025_df["Week"] < current_week)
+    ]
+    if not past.empty:
+        return past["Sacks"].mean()
+    return None
+
 
 # Detect current week
 def get_current_week(start_date=datetime.date(2025, 9, 4)):
@@ -252,7 +287,10 @@ if position == "DEF" and player:
 
         with stat_col2:
             st.markdown(f'<div style="margin-bottom: -8px;">🔄 Turnovers Per Game: 1.4</div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: 6.1</div>', unsafe_allow_html=True)
+            # Dynamic sacks allowed per game
+            sacks_allowed = get_sacks_allowed(team_full_name, current_week, sacks_2025_df)
+            sacks_display = round(sacks_allowed, 1) if sacks_allowed is not None else "??"
+            st.markdown(f'<div style="margin-bottom: -8px;">💥 Sacks Allowed Per Game: {sacks_display}</div>', unsafe_allow_html=True)
             implied_display = implied_points if implied_points is not None else "??"
             st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: {implied_display}</div>', unsafe_allow_html=True)
 
