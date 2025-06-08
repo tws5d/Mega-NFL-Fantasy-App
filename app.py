@@ -113,7 +113,6 @@ def get_sacks_allowed(team_full, current_week, sacks_2025_df):
         # derive city by dropping team nickname from full name
         city = " ".join(team_full.split()[:-1]).lower()
         lookup_name = city
-        st.write("🔍 DEBUG lookup_name =", lookup_name)
         row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
