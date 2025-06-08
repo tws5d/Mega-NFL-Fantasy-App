@@ -338,7 +338,7 @@ if position == "DEF" and player:
                 """
                 <div style='text-align:center; line-height:1; margin-top:16px;'>
                   <div style='color:#FF4136; font-weight:bold; font-size:24px;'>
-                    Key Injuries
+                    Key Defensive Injuries
                   </div>
                 </div>
                 """,
