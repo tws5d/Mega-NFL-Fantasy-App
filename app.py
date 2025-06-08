@@ -74,14 +74,12 @@ except FileNotFoundError:
     sacks_2025_df = pd.DataFrame(columns=["Team", "Week", "Sacks"])
 
 def get_sacks_allowed(team_full, current_week, sacks_2025_df):
-    
     # Week 1: use 2024 average
     if current_week == 1:
-        # map selected team to CSV city for lookup
-        lookup_name = team_full.lower()
+        # derive city by dropping team nickname from full name
+        city = " ".join(team_full.split()[:-1]).lower()
+        lookup_name = city
         st.write("🔍 DEBUG lookup_name =", lookup_name)
-        if lookup_name == "49ers":
-            lookup_name = "San Francisco"
         row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
@@ -118,8 +116,6 @@ if today < season_start:
     current_week = 1
 else:
     current_week = get_current_week()
-
-st.write("🔍 DEBUG current_week =", current_week)
 
 image = Image.open("Banner.jpg")
 st.image(image, use_container_width=True)
