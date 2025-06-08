@@ -323,7 +323,7 @@ if position == "DEF" and player:
             
             # Key Offensive Injuries header
             st.markdown(
-                "<div style='text-align:center; line-height:1; margin-top:16px;'>"
+                "<div style='text-align:left; line-height:1; margin-top:16px;'>"
                 "<div style='color:#2ECC40; font-weight:bold; font-size:24px;'>Key Offensive Injuries</div>"
                 "</div>",
                 unsafe_allow_html=True
@@ -344,7 +344,7 @@ if position == "DEF" and player:
             # Key Injuries header (centered)
             st.markdown(
                 """
-                <div style='text-align:center; line-height:1; margin-top:16px;'>
+                <div style='text-align:left; line-height:1; margin-top:16px;'>
                   <div style='color:#FF4136; font-weight:bold; font-size:24px;'>
                     Key Defensive Injuries
                   </div>
