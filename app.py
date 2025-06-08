@@ -79,7 +79,7 @@ def get_sacks_allowed(team_full, current_week, sacks_2025_df):
         # map selected team to CSV city for lookup
         lookup_name = team_full.lower()
         if lookup_name == "49ers":
-            lookup_name = "san francisco"
+            lookup_name = "San Francisco"
         row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
