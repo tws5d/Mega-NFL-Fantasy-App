@@ -74,6 +74,9 @@ except FileNotFoundError:
     sacks_2025_df = pd.DataFrame(columns=["Team", "Week", "Sacks"])
 
 def get_sacks_allowed(team_full, current_week, sacks_2025_df):
+    st.write("DEBUG week1 lookup_name =", lookup_name)
+    st.write(sacks_2024_df.head())  # confirm the DataFrame loaded
+
     # Week 1: use 2024 average
     if current_week == 1:
         # map selected team to CSV city for lookup
