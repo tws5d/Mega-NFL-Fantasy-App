@@ -76,7 +76,11 @@ except FileNotFoundError:
 def get_sacks_allowed(team_full, current_week, sacks_2025_df):
     # Week 1: use 2024 average
     if current_week == 1:
-        row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == team_full.lower()]
+        # map selected team to CSV city for lookup
+        lookup_name = team_full.lower()
+        if lookup_name == "49ers":
+            lookup_name = "san francisco"
+        row = sacks_2024_df[sacks_2024_df["Team"].str.lower() == lookup_name]
         if not row.empty:
             return row["Sacks Allowed Per Game"].iloc[0]
         return None
