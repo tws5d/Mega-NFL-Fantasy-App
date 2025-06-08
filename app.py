@@ -337,7 +337,7 @@ if position == "DEF" and player:
             st.markdown(
                 """
                 <div style='text-align:center; line-height:1; margin-top:16px;'>
-                  <div style='color:#B10DC9; font-weight:bold; font-size:24px;'>
+                  <div style='color:#2ECC40; font-weight:bold; font-size:24px;'>
                     Key Injuries
                   </div>
                 </div>
