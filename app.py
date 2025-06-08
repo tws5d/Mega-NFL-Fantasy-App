@@ -333,11 +333,15 @@ if position == "DEF" and player:
             implied_display = implied_points if implied_points is not None else "??"
             st.markdown(f'<div style="margin-bottom: -8px;">🧮 Implied Point Total: {implied_display}</div>', unsafe_allow_html=True)
             
-            # Key Injuries header
+            # Key Injuries header (centered)
             st.markdown(
-                "<div style='text-align:left; line-height:1; margin-top:16px;'>"
-                "<div style='color:#FFD700; font-weight:bold; font-size:24px;'>Key Injuries</div>"
-                "</div>",
+                """
+                <div style='text-align:center; line-height:1; margin-top:16px;'>
+                  <div style='color:#FFD700; font-weight:bold; font-size:24px;'>
+                    Key Injuries
+                  </div>
+                </div>
+                """,
                 unsafe_allow_html=True
             )
 
