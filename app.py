@@ -28,24 +28,11 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
     if response.status_code != 200:
         st.error(f"API error: {response.status_code} — {response.text}")
         return None
-    
+
     data = response.json()
 
-    current_week = ((datetime.date.today() - datetime.date(2025, 9, 4)).days // 7) + 1
-    week_games = []
-
-    # Filter only the games for the current week
+    # Find the matching game
     for game in data:
-        game_time = datetime.datetime.fromisoformat(game["commence_time"].replace("Z", "+00:00"))
-        game_week = ((game_time.date() - datetime.date(2025, 9, 4)).days // 7) + 1
-        if game_week == current_week:
-            week_games.append(game)
-
-    # Debug print
-    st.markdown(f"Games returned: {len(week_games)}")
-
-    # Now loop through only this week's games
-    for game in week_games:
         if {game["home_team"].lower(), game["away_team"].lower()} == {team_full_name.lower(), opponent_full_name.lower()}:
             dk = next((b for b in game["bookmakers"] if b["key"] == "draftkings"), None)
             if not dk:
@@ -59,15 +46,12 @@ def get_implied_points(team_full_name, opponent_full_name, is_home_team):
             total_points = next((o["point"] for o in totals["outcomes"] if o["name"] == "Over"), None)
             spread_dict = {o["name"]: o["point"] for o in spreads["outcomes"]}
 
-            opponent_spread = next(
-                (v for k, v in spread_dict.items() if k.lower() != team_full_name.lower()),
-                None
-            )
-
-            if opponent_spread is None or total_points is None:
+            team_spread = spread_dict.get(team_full_name)
+            if team_spread is None or total_points is None:
                 return None
 
-            return round(total_points - opponent_spread, 1)
+            implied_opponent = (total_points - team_spread) / 2
+            return round(implied_opponent, 1)
 
     return None
 
